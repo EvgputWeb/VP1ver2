@@ -12,7 +12,7 @@ mb_regex_encoding("UTF-8");
 
 if ((empty($_REQUEST['email'])) || (empty($_REQUEST['phone']))) {
     // Как лучше всего обработать ошибку ???
-    header("Location: error.php?errcode=4000");
+    header("Location: /?errcode=4000");
     return;
 }
 
@@ -21,7 +21,7 @@ if ((empty($_REQUEST['email'])) || (empty($_REQUEST['phone']))) {
 $dbh = require_once 'dbconnect.php';
 
 if ($dbh === false) {
-    header("Location: error.php?errcode=4001");
+    header("Location: /?errcode=4001");
     return;
 }
 
@@ -37,7 +37,7 @@ try {
     $userId = $sth->fetchColumn();
 } catch (PDOException $e) {
     // Как лучше всего обработать ошибку ???
-    header("Location: error.php?errcode=4003");
+    header("Location: /?errcode=4003");
     return;
 }
 
@@ -53,7 +53,7 @@ if ($userId === false) {
         $userId = $dbh->lastInsertId();
     } catch (PDOException $e) {
         // Как лучше всего обработать ошибку ???
-        header("Location: error.php?errcode=4004");
+        header("Location: /?errcode=4004");
         return;
     }
 }
@@ -88,7 +88,7 @@ try {
     $orderId = $dbh->lastInsertId();
 } catch (PDOException $e) {
     // Как лучше всего обработать ошибку ???
-    header("Location: error.php?errcode=4005");
+    header("Location: /?errcode=4005");
     return;
 }
 
@@ -100,7 +100,6 @@ try {
 // Подключаем полезные функции
 require_once 'utils.php';
 
-
 // Функция для получения номера заказа указанного пользователя
 // Возвращает строку. Например: "первый", "12-й"
 function getOrderNumber(PDO $dbh, $userId)
@@ -111,7 +110,7 @@ function getOrderNumber(PDO $dbh, $userId)
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
         // Как лучше всего обработать ошибку ???
-        header("Location: error.php?errcode=4006");
+        header("Location: /?errcode=4006");
         return null;
     }
     if ($count == 1) {
@@ -122,13 +121,13 @@ function getOrderNumber(PDO $dbh, $userId)
 }
 
 //-----------------------------------------------------
-// Создаём папка для писем, если её нет
+// Создаём папку для писем, если её нет
 $emailsFolder = __DIR__ . DIRECTORY_SEPARATOR . '_emails_';
 if (!file_exists($emailsFolder)) {
     try {
         mkdir($emailsFolder, 0777);
     } catch (ErrorException $e) {
-        header("Location: error.php?errcode=4007");
+        header("Location: /?errcode=4007");
         return;
     }
 }

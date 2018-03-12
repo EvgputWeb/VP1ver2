@@ -2,8 +2,14 @@
 // начинаем работать с сессией
 session_start();
 
-$appDir = realpath(__DIR__ . '/../app');
+$upDir = realpath(__DIR__ . '/..');
+$appDir = $upDir . '/app';
 
+// создание БД
+if ($_SERVER['REQUEST_URI'] == "/createdb") {
+    require_once($upDir . '/createdb.php');
+    return;
+}
 
 // стартовая страница
 if ($_SERVER['REQUEST_URI'] == "/") {
@@ -20,6 +26,12 @@ if ($_SERVER['REQUEST_URI'] == "/order") {
 // админ
 if ($_SERVER['REQUEST_URI'] == "/admin") {
     require_once($appDir . '/admin.php');
+    return;
+}
+
+// обработка ошибок
+if (strpos($_SERVER['REQUEST_URI'], 'errcode') > 0) {
+    require_once($appDir . '/error.php');
     return;
 }
 

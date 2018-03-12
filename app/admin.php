@@ -11,7 +11,7 @@ mb_regex_encoding("UTF-8");
 $dbh = require_once 'dbconnect.php';
 
 if ($dbh === false) {
-    header("Location: error.php?errcode=4001");
+    header("Location: /?errcode=4001");
     return;
 }
 
@@ -21,7 +21,7 @@ try {
     // Пользователи:
     $sth_users = $dbh->query('SELECT * FROM users');
 } catch (PDOException $e) {
-    header("Location: error.php?errcode=4003");
+    header("Location: /?errcode=4003");
     return;
 }
 
@@ -29,7 +29,7 @@ try {
     // Заказы:
     $sth_orders = $dbh->query('SELECT orders.*, users.name as username FROM orders,users WHERE orders.user_id=users.id');
 } catch (PDOException $e) {
-    header("Location: error.php?errcode=4003");
+    header("Location: /?errcode=4003");
     return;
 }
 
