@@ -155,4 +155,6 @@ file_put_contents($emailFileName, $mailText);
 //=========================================================================================
 
 // Работа выполнена. Возвращаемся обратно - на главную страницу
-header("Location: /");
+// header("Location: /");
+
+echo json_encode(['result' => 'success', 'order_id' => $orderId], JSON_UNESCAPED_UNICODE);
