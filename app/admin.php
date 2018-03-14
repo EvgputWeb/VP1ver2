@@ -10,14 +10,15 @@ if ($dbh === false) {
 // Получаем данные из базы
 try {
     // Пользователи:
-    $sth_users = $dbh->query('SELECT * FROM users');
+    $sth_users = $dbh->query('SELECT * FROM users ORDER BY id');
 } catch (PDOException $e) {
     header("Location: /?errcode=4003");
     return;
 }
 try {
     // Заказы:
-    $sth_orders = $dbh->query('SELECT orders.*, users.name as username FROM orders,users WHERE orders.user_id=users.id');
+    $sql = 'SELECT orders.*, users.name as username FROM orders,users WHERE orders.user_id=users.id ORDER BY orders.id';
+    $sth_orders = $dbh->query($sql);
 } catch (PDOException $e) {
     header("Location: /?errcode=4004");
     return;

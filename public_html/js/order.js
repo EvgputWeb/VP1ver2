@@ -1,6 +1,9 @@
 $('#order-form').on('submit', function(e){
     e.preventDefault();
 
+    var paymentValue = $('input[name="payment"]:checked').val();
+    var callbackValue = $('input[name="callback"]').is(':checked') ? "on" : "";
+
     // Делаем кнопки недоступными на время работы скрипта
     $('input.order__form-button').css('opacity', '0.2').prop('disabled',true);
 
@@ -18,8 +21,8 @@ $('#order-form').on('submit', function(e){
             appt: $('input[name="appt"]').val(),
             floor: $('input[name="floor"]').val(),
             comment: $('textarea[name="comment"]').val(),
-            payment: $('input[name="payment"]').val(),
-            callback: $('input[name="callback"]').val()
+            payment: paymentValue,
+            callback: callbackValue
         }
     })
         .done(function(data) {
