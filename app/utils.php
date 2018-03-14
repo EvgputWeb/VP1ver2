@@ -1,10 +1,6 @@
 <?php
-mb_internal_encoding("UTF-8");
-mb_regex_encoding("UTF-8");
 
-//===========================================================
 // Функция для формирования адреса в удобочитаемом виде
-
 function makeBeautyAddress($street, $home, $part, $appt, $floor)
 {
     $addrPart = ['street', 'home', 'part', 'appt', 'floor'];
@@ -23,4 +19,22 @@ function makeBeautyAddress($street, $home, $part, $appt, $floor)
         }
     }
     return $address;
+}
+
+// Функция для получения номера заказа указанного пользователя
+// Возвращает строку. Например: "первый", "12-й"
+function getOrderNumber(PDO $dbh, $userId)
+{
+    try {
+        $sth = $dbh->prepare('SELECT count(*) AS count FROM orders WHERE user_id = :userId');
+        $sth->execute(array('userId' => $userId));
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        return null;
+    }
+    if ($count == 1) {
+        return "первый";
+    } else {
+        return "$count-й";
+    }
 }
