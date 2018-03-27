@@ -7,15 +7,19 @@ mb_internal_encoding("UTF-8");
 mb_regex_encoding("UTF-8");
 
 
+define('ROOT', realpath(__DIR__ . '/..'));
+define('APP', ROOT . '/app');
+
+require_once ROOT . "/vendor/autoload.php";
+
+
 // начинаем работать с сессией
 session_start();
 
-$upDir = realpath(__DIR__ . '/..');
-$appDir = $upDir . '/app';
 
 // создание БД
 if ($_SERVER['REQUEST_URI'] == "/createdb") {
-    require_once($upDir . '/createdb.php');
+    require_once(ROOT . '/createdb.php');
     return;
 }
 
@@ -27,19 +31,19 @@ if ($_SERVER['REQUEST_URI'] == "/") {
 
 // заказ
 if ($_SERVER['REQUEST_URI'] == "/order") {
-    require_once($appDir . '/order.php');
+    require_once(APP . '/order.php');
     return;
 }
 
 // админ-панель
 if ($_SERVER['REQUEST_URI'] == "/admin") {
-    require_once($appDir . '/admin.php');
+    require_once(APP . '/admin.php');
     return;
 }
 
 // обработка ошибок
 if (strpos($_SERVER['REQUEST_URI'], 'errcode') > 0) {
-    require_once($appDir . '/error.php');
+    require_once(APP . '/error.php');
     return;
 }
 

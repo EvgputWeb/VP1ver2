@@ -22,7 +22,8 @@ $('#order-form').on('submit', function(e){
             floor: $('input[name="floor"]').val(),
             comment: $('textarea[name="comment"]').val(),
             payment: paymentValue,
-            callback: callbackValue
+            callback: callbackValue,
+            g_recaptcha_response: grecaptcha.getResponse()
         }
     })
         .done(function(data) {
