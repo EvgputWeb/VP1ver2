@@ -20,19 +20,28 @@ $mailText .= "<b>DarkBeefBurger за 500 рублей, 1 шт</b><br><br>\n\n";
 $mailText .= "Спасибо!<br>\n";
 $mailText .= "Это Ваш " . $userOrderNum . " заказ!<br>\n";
 
+$smtp = [
+    'host' => "smtp.mail.ru",
+    'username' => 'evgputweb_loftschool@mail.ru',
+    'password' => 'loftschool_evgputweb',
+    'secure' => 'ssl',
+    'port' => 465,
+    'mail_from' => 'evgputweb_loftschool@mail.ru'
+];
 
 $mail = new PHPMailer;
 $mail->IsSMTP();
 $mail->SMTPAuth = true;
-$mail->Host = "smtp.mailtrap.io";
-$mail->Username = 'c25748876498c6';
-$mail->Password = 'db1cb931cdfe56';
-$mail->Port = 2525;
-$mail->setFrom('from@mailtrap.com', 'E-mail с сайта');
-$mail->addAddress($_REQUEST['email'], 'Получатель');     // Add a recipient
-$mail->addReplyTo('from@mailtrap.com', 'Robot');
+$mail->Host = $smtp['host'];
+$mail->Username = $smtp['username'];
+$mail->Password = $smtp['password'];
+$mail->SMTPSecure = $smtp['secure'];
+$mail->Port = $smtp['port'];
+$mail->setFrom($smtp['mail_from'], 'E-mail с сайта');
+$mail->addAddress($_REQUEST['email'], 'Получатель');
+$mail->addReplyTo($smtp['mail_from'], 'Robot');
 $mail->CharSet = 'UTF-8';
-$mail->isHTML(true);                                  // Set email format to HTML
+$mail->isHTML(true);
 $mail->Subject = 'Письмо от Бургерной: заказ №' . $orderId . ' от ' . date('d.m.Y H:i', time());
 $mail->Body = $mailText;
 $mail->AltBody = strip_tags($mailText);
